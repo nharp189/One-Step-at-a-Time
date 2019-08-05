@@ -32,6 +32,11 @@ names(cleaned.merged.data) <- c("sub", "race", "Negative", "Positive", "Ambiguou
                                 "nationality","state", "dep", "team", "racquet","aerobic", "martial", 
                                 "resistance")
 
+### Calculate minutes per week ###
+cleaned.merged.data$vig_min.week <- (cleaned.merged.data$vigPA_min.day * cleaned.merged.data$vigPA_day.week)
+cleaned.merged.data$mod_min.week <- (cleaned.merged.data$modPA_min.day * cleaned.merged.data$modPA_day.week)
+cleaned.merged.data$walk_min.week <- (cleaned.merged.data$walk_min.day * cleaned.merged.data$walk_day.week)
+
 ### calculate descriptives (Table 1) ###
 {
 ### Percent Negative Ratings - Negative Images ###
@@ -47,8 +52,17 @@ sd(cleaned.merged.data$Ambiguous, na.rm = TRUE)
 mean(cleaned.merged.data$age, na.rm = TRUE)
 sd(cleaned.merged.data$age, na.rm = TRUE)
 ### Mean & SD Education ###
-mean(cleaned.merged.data$education, na.rm = TRUE)
-sd(cleaned.merged.data$education, na.rm = TRUE)
+cleaned.merged.data$education <- recode(cleaned.merged.data$education, "1" = "Some high school",
+                                        "2" = "High school diploma or GED",
+                                        "3" = "Some college",
+                                        "4" = "Associates",
+                                        "5" = "Bachelors",
+                                        "6" = "Masters",
+                                        "7" = "Professional degree",
+                                        "8" = "Trade, technical, or vocational training",
+                                        "9" = "PhD, medical, or law degree")
+
+count(cleaned.merged.data, education)
 ### Count Race ###
 count(cleaned.merged.data, race)
 ### Mean & SD Income Levels ###
@@ -58,11 +72,11 @@ sd(cleaned.merged.data$income, na.rm = TRUE)
 mean(cleaned.merged.data$walk_min.week, na.rm = TRUE)
 sd(cleaned.merged.data$walk_min.week, na.rm = TRUE)
 ### Mean & SD - Moderate PA (minutes per week) ###
-mean(cleaned.merged.data$modPA_min.week, na.rm = TRUE)
-sd(cleaned.merged.data$modPA_min.week, na.rm = TRUE)
+mean(cleaned.merged.data$mod_min.week, na.rm = TRUE)
+sd(cleaned.merged.data$mod_min.week, na.rm = TRUE)
 ### Mean & SD - Vigorous (minutes per week) ###
-mean(cleaned.merged.data$vigPA_min.week, na.rm = TRUE)
-sd(cleaned.merged.data$vigPA_min.week, na.rm = TRUE)
+mean(cleaned.merged.data$vig_min.week, na.rm = TRUE)
+sd(cleaned.merged.data$vig_min.week, na.rm = TRUE)
 ### Mean & SD - Exercise (METmins per week) ###
 mean(merged.data$`Total Sports MET Minutes (without assumed 0's).x`, na.rm = TRUE)
 sd(merged.data$`Total Sports MET Minutes (without assumed 0's).y`, na.rm = TRUE)
@@ -97,10 +111,6 @@ pcor.test(data1$Negative, data1$total_MET,
           list(data1$age, data1$gender), method = "spearman")
 
 ### Percent Negative Ratings - Minutes per week analyses ###
-### Calculate minutes per week ###
-cleaned.merged.data$vig_min.week <- (cleaned.merged.data$vigPA_min.day * cleaned.merged.data$vigPA_day.week)
-cleaned.merged.data$mod_min.week <- (cleaned.merged.data$modPA_min.day * cleaned.merged.data$modPA_day.week)
-cleaned.merged.data$walk_min.week <- (cleaned.merged.data$walk_min.day * cleaned.merged.data$walk_day.week)
 {
 ### ambiguous images and vigorous  ###
 data1 <- cleaned.merged.data[,c(1,5,19,21,31:33)]
