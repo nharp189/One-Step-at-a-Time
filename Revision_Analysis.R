@@ -6,12 +6,12 @@ setwd("/Users/nicholasharp/Documents/Nick-Grad/Neta_Lab/exercise_study/Bayes-R/C
 #install.packages("emmeans")
 #install.packages("ppcor")
 
-### load packages ###
-library(readxl)
-library(psych)
-library(dplyr)
-library(tidyr)
-library(ppcor)
+### load packages quietly ###
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(psych))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(ppcor))
 
 ### import data ###
 new.data <- read_excel("data/Pilot Data - Health&Pol FINAL.xlsx", sheet = 2)
@@ -358,3 +358,4 @@ data1 <- data1[complete.cases(data1),]
 pcor.test(data1$Negative, data1$exercise_hours.week,
           list(data1$age, data1$gender), method = "spearman")
 }
+
